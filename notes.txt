@@ -1,0 +1,173 @@
+Basic Reset
+==============
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+Animations
+==============
+
+.heading-primary {
+    color: #fff;
+    text-transform: uppercase;
+
+    /* Determines if the back part of the element when we tranform it is visible or hidden to the user - will prevent the upwards shake that can appear at the end of the animation. */
+    backface-visibility: hidden;
+}
+
+.heading-primary-main {
+    display: block;
+    font-size: 60px;
+    font-weight: 400;
+    letter-spacing: 35px;
+
+    animation-name: moveInLeft;
+    animation-duration: 1s;
+
+
+    /*animation-iteration-count: 3;*/
+    /* animation-delay: 3s; */
+}
+
+.heading-primary-sub {
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 17.4px;
+
+    animation-name: moveInRight;
+    animation-duration: 1s;
+}
+
+/* To animate the h1 lines of the header */
+@keyframes moveInLeft {
+    /* Start */
+    0% {
+        opacity: 0;
+        transform: translateX(-100px);
+
+        //Could also rotate the transformation as well:
+
+        transform: translateX(-100px) rotate(-50deg);
+    }
+
+     //Could also rotate the transformation as well:
+
+     60% {
+         transform: rotate(120deg);
+     }
+
+    80% {
+        transform: translateX(10px);
+    }
+
+    /* Finish */
+    100% {
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+@keyframes moveInRight {
+    /* Start */
+    0% {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+
+    80% {
+        transform: translateX(10px);
+    }
+
+    /* Finish */
+    100% {
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+The box model
+==============
+
+Context - text, images, etc.
+Padding - transparent area around the content, inside of the box.
+Border - goes around the padding and the content.
+Margin - space between boxes.
+Fill area - the area that gets filled with background color or background image.
+
+box-sizing: border-box   -    the height and the width will be defined for the entire box, including the padding and
+the border and not just for the content area.
+
+What this means is that the paddings and borders that we specify will reduce the inner width of the content area, instead
+of adding them to the total height or width of an element.
+
+* The 3 most important box types:
+
+- block-level box:
+# The type of the box is always defined by a display property - for block-level boxes, the display property is usually
+set to 'block'.
+# This type of box will always occupy as much space as possible, which is usually 100% of its parent width. It will also
+create line breaks after and before it, meaning that blocks are formatted vertically, one after another.
+
+- inline boxes:
+# basically the opposite of block-level boxes, because their content is distributed in lines, meaning that an inline box
+only occupies the space that its content actually needs.  They also don't cause line breaks after or in line with them.
+# The height and width properties do not apply, which means that we cannot use those properties on the elements that are
+inline elements by default.
+# We can only specify horizontal paddings and margins.
+
+-inline-block boxes:
+# Are technically also inline boxes, but work as a block-level box on the inside.
+# Since they're tecnically inline elements, they also use up only their content space and cause no line breaks.
+# Since they work as a block-level box on the inside, the box model applies to them just like in the regular
+block-level boxes.
+
+
+BEM
+=====
+
+With component-driven design, we try to divide our page into modular components.
+The components should be reusable across a project and between different projects.
+Components should also be independant so we can use them completely on their own.
+
+BEM - Block Element Modifier
+
+E.g.,
+
+.block {
+
+}
+
+.block__element {
+
+}
+
+.block__element__modifier {
+
+}
+
+* Block - a standalone component that is meaningful on its own.
+* Element - a part of a block that has no standalone meaning.
+* Modifier - a different version of a block or an element.
+
+The 7-1 Pattern
+================
+For project architecture.
+
+We have 7 different folders where we put partial SASS files, and then one main SASS file in which we import all of our
+partial files into one final compiled CSS stylesheet.
+
+* The 7 folders:
+
+# base/ => where we put the basic product definitions.
+# components/  => where we have one file for each component.
+# layout/  => where we define the overall layout of the project.
+# pages/   => where we have styles for specific pages of the project.
+# themes/  => if you want to implement different visual themes.
+# abstracts/  => where we put code that doesn't output any CSS, e.g., variables and mixins.
+# vendors/  => where all third party CSS goes.
+
+

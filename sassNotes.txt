@@ -1,0 +1,275 @@
+Variables
+=========
+
+Are defined like this:
+
+$primary-color: #f9ed69;
+
+And can then be used like this:
+
+nav {
+    background-color: $primary-color;
+}
+
+Nesting
+========
+
+E.g.,
+
+  <ul class="navigation">
+    <li><a href="#">About Us</a></li>
+    <li><a href="#">Pricing</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+
+If you wanted to target the <li></li> within the ul that has a class of "navigation", in normal css you could write:
+
+.navigation li {
+
+}
+
+But with Sass you can use nesting, so it would look like this:
+
+.navigation {
+    list-style: none;
+
+    li {
+        display: inline-block;
+    }
+}
+
+What if you wanted to style just the first li within the .navigation block?
+You could just use the first child pseudoclass.
+
+.navigation {
+    list-style: none;
+
+    li {
+        display: inline-block;
+
+        &:first-child {
+            margin: 0;
+        }
+    }
+}
+
+The & is used to write the selector path up until that point where it is used.  So in this case it represents
+the .navigation li code.
+
+Sass comes with some built in functions as well like the color functions.
+
+Say you have a button that you want the color to darken a bit when hovered on:
+
+.btn-main {
+    &:link {
+        background-color: $color-primary;
+    }
+
+    &:hover {
+        background-color: darken($color-secondary, 25%;   //This will select a darker color based on the original link 
+                                                            color defined ($color-secondary), and then the percentage that
+                                                            you define.  So the hover color will be 25% darker than the link 
+                                                            color.
+    }
+}
+
+You can also use 'lighten' instead of 'darker'.
+
+Mixins
+=======
+
+A mixin is just a reusable piece of code.  Like a huge variable with multiple lines of code.
+
+E.g., if we wanted to use the clearfix code in mulitple places:
+
+.clearfix {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+This written as a mixin would look like this:
+
+@mixin clearfix {
+    &::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+}
+
+Then to use the clearfix in say the navigation:
+
+nav {
+    margin: 30px;
+    background-color: $color-primary;
+
+    //Use the clearfix mixin:
+    @include clearfix;
+}
+
+You can pass arguments to mixins:
+
+@mixin style-link-text($color) {     //$color is the argument
+    text-decoration: none;
+    text-transform: uppercase;
+    color: $color;
+}
+
+li {
+    display: inline-block;
+    margin-left: 30px;
+    
+    &:first-child {
+      margin: 0;
+    }
+    
+    a {
+      @include style-link-text($color-text-dark);   //Use the mixin
+    }
+  } 
+}
+
+.btn-main:link,
+.btn-hot:link {
+  padding: 10px;
+  display: inline-block;
+  text-align: center;
+  border-radius: 100px;
+  width: $width-button;
+  @include style-link-text($color-text-light);   //Use the mixin again
+}
+
+functions
+==========
+
+@function divide($a, $b) {
+    @return $a / $b;
+}
+
+Then if we wanted to use it:
+
+nav {
+    margin: divide(60 2) * 1px;
+    background-color: $color-primary;
+
+    @include clearfix;
+}
+
+Extends
+========
+
+We can write a placeholder and put a bunch of styles in there, and then have other selectors extend that placeholder.
+
+E.g.,
+
+Take the things that are common to buttons and put them into a placeholder:
+
+%btn-placeholder {
+    padding: 10px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 100px;
+    width: $width-button;
+    @include style-link-text($color-text-light);
+}
+
+Now extend the existing selectors:
+
+.btn-main {
+    &:link {
+        @extend %btn-placeholder;
+        background-color: $color-secondary;
+    }
+
+    &:hover {
+        background-color: darken($color-secondary, 20%);
+    }
+}
+
+.btn-hot {
+    &:link {
+        @extend %btn-placeholder;
+        background-color: $color-tertiary;
+    }
+
+    &:hover {
+        background-color: lighten($color-tertiary, 20%);
+    }
+}
+
+
+The Command line
+==================
+
+.. always means to go a folder above the one that you're currently in.
+
+cp is used to copy a file. - put cp *name of the file* *where you want to move it to*
+e.g., cp index.html ..   this will move the index.html file up one folder.
+
+mv is used to move a file.
+
+rm is used to delete a file - e.g, rm index.html
+
+
+Install Sass Locally
+=====================
+Using an npm package called Node SASS.
+
+In the project directory folder:
+
+* Create a package.json file:
+npm init
+
+* Install node-sass"
+npm install node-sass --save-dev
+
+
+Using Sass
+===========
+
+Make a directory to hold your Sass code:
+
+mkdir sass
+
+Move into the sass folder and create a new file called main.scss
+
+touch main.scss
+
+* Compiling sass:
+
+We need to write a script in the package.json file:
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+
+  Take out the existing script and replace with this:
+
+   "scripts": {
+    "compile:sass": "node-sass sass/main.scss css/style.css -w"
+  }
+
+  The node-sass is referring to the package that is being used.
+  sass/main.scss is referring to the path to the scss file.
+  css/style.css is referring to the path to the css file that you want the sass to be compiled into.
+
+  Then you need to run the actual code in the terminal:
+
+  npm run compile:sass
+
+  If this worked then you should get a message saying:
+
+  Rendering Complete, saving .css file...
+  Wrote CSS to /Users/erin/Desktop/*project folder*/css/style.css
+
+  And then you can open the css file to see the compiled code.
+  
+  
+  Auto refresh the browser with live-server
+  ============================================
+  npm install live-server
+  
+  Then in the console:
+  
+  live-server
