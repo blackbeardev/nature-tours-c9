@@ -273,3 +273,86 @@ We need to write a script in the package.json file:
   Then in the console:
   
   live-server
+  
+  
+  Sass file structure
+  ===================
+  
+  In the main Sass folder, then create a base folder:
+  
+  >Sass
+    >base
+    
+    In the base folder it will hold:
+            _base.scss
+            _animations.scss
+            _typography.scss
+            _utilities.scss
+            
+Then create the abstracts folder which is going to hold the files that don't output any css - variables, mixins, etc:
+
+    >Sass
+        >base
+        >abstracts
+        
+    In the abstracts folder it will hold:
+            _variables.scss
+            _mixins.scss
+            _functions.scss
+            
+Then create the component folder which will have a file for each component:
+
+    >Sass
+        >base
+        >abstracts
+        >components
+        
+    In the components folder it will hold:
+            
+Then create the layout folder which will hold the global footer, header, everything that is going to be used on all pages - holds all the components together.:
+
+    >Sass
+        >base
+        >abstracts
+        >components
+        >layout
+        
+    In the layout folder it will hold:
+    
+Then create the pages folder which will hold the styles for individual pages:
+
+    >Sass
+        >base
+        >abstracts
+        >components
+        >layout
+        >pages
+        
+    In the pages folder it will hold:
+            _home.scss
+    
+
+  
+  Partials and Imports
+ -----------------------
+  
+  Partial files always start with an underscore _
+  
+  E.g.,
+  
+  _base.scss
+  
+  * To import the partial file into the main.scss file:
+  
+  At the top of the main.scss file:
+  
+    @import "abstracts/functions";
+    @import "abstracts/mixins";
+    @import "abstracts/variables";
+    
+    @import "base/base";
+    @import "base/animations";
+    @import "base/typography";
+    @import "base/utilities";
+    
+    @import "pages/home";
