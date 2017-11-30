@@ -41,6 +41,7 @@ body {
   background-image: linear-gradient(to right, $color-primary-light, $color-primary-dark);
   -webkit-background-clip: text;
   color: transparent;
+  text-transform: uppercase;
   letter-spacing: 2px;
   transition: all .2s;
   
